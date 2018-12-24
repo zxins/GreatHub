@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
+import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 
 # MySQL连接
-MYSQL_CONN = 'mysql+mysqldb://{0}:{1}@{2}/{3}?charset=utf8'.format('root', 'demo', 'localhost', 'great')
-engine = create_engine(MYSQL_CONN)
+# MYSQL_CONN = 'mysql+mysqldb://{0}:{1}@{2}/{3}?charset=utf8'.format('root', 'demo', 'localhost', 'great')
+
+# basedir指向project根目录
+basedir = os.path.abspath(os.path.dirname(__file__)).rsplit('/', 1)[0]
+db_path = os.path.join(basedir, 'instance', 'great.sqlite')
+engine = create_engine('sqlite:///' + db_path)
 
 # 一旦flush就能在query中拿到数据，但是不自动提交（不提交就不会真的写到数据库中去）
 session_factory = sessionmaker(bind=engine, autoflush=False, autocommit=False)

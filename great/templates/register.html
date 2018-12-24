@@ -5,6 +5,38 @@
     <title>Register</title>
 </head>
 <body>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+
+    {{ form.username.label }}:<br>
+    {{ form.username }}{% for error in form.username.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}<br>
+
+
+    {{ form.email.label }}:<br>
+    {{ form.email }}{% for error in form.email.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}<br>
+
+
+    {{ form.password.label }}:<br>
+    {{ form.password }}{% for error in form.password.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}<br>
+
+
+    {{ form.password2.label }}:<br>
+    {{ form.password2 }}{% for error in form.password2.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}<br>
+
+
+    {% for message in get_flashed_messages() %}
+    <div style="color: red">{{ message }}</div>
+    {% endfor %}
+    {{ form.submit() }}<br>
+</form>
 
 </body>
 </html>
