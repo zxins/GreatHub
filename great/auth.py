@@ -2,7 +2,7 @@
 import functools
 from great.db import db_session
 from great.models import User
-from great.forms import RegistrationForm
+from great.forms import RegistrationForm, LoginForm
 
 from flask import (
     Blueprint, request, g, render_template, redirect, url_for, session, flash
@@ -25,7 +25,22 @@ def register():
             user.set_password(password)
             db_session.add(user)
             db_session.commit()
-            return render_template('login.html')
+            return redirect(url_for('login'))
         else:
             flash('User {} is already registered.'.format(username))
     return render_template("register.html", form=form)
+
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        user = User.query.filter_by(name=form.username.data).first()
+
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('auth.login'))
+
+        return redirect(url_for('index'))
+
+    return render_template("login.html", form=form)
