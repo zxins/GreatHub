@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from great.db import Base
+
+from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)

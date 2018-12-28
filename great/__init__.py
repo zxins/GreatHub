@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 from flask import Flask
+from flask_login import LoginManager
+
+login_manager = LoginManager()
+login_manager.login_view = "auth.login"
 
 
 def create_app(test_config=None):
@@ -10,6 +14,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     bootstrap = Bootstrap(app)
+    login_manager.init_app(app)
 
     # instance_relative_config=True 告诉应用配置文件是相对于 instance folder 的相对路径。
     # 实例文件夹在 flaskr 包的外面，用于存放本地数据（例如配置密钥和数据库），不应当 提交到版本控制系统。
